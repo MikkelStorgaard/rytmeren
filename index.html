@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type='text/javascript'>
+    var msg = "❄ ❄ ❄ JULERYTME, JULERYTME, JA JA JA! ❄ ❄ ❄";
+    msg = " ..... " + msg;pos = 0;
+    function scrollTitle() {
+        document.title = msg.substring(pos, msg.length) + msg.substring(0, pos); pos++;
+        if (pos > msg.length) pos = 0
+        window.setTimeout(scrollTitle,100);
+    }
+        scrollTitle();
+</script>
+<script type="text/javascript" src="howler.js"></script>
+<script type="text/javascript" src="julerytmeren.js"></script>
+<script type="text/javascript" src="jquery-2.1.1.js"></script>
+
+<style>
+
+a,h1 {
+    font-family: monospace;
+
+}
+
+
+
+</style>
+</head>
+
+<body>
+<h1>❄ Julerytme ❄</h1>
+<a>Tryk på mellemrumstasten i takt til din datamats øvrige lydspor.<br/>
+Der vil da jules.</a><br/><br/><br/>
+<a>Forestil dig en LP-plade:<br/>Når du holder SKIFT-knappen nede, holder du fingeren på pladen.<br/>
+    Når du slipper SKIFT igen, slipper du pladen, og den kan spille igen.</a>
+<br/><br/><br/>
+<a>Forestil dig igen en LP-plade:<br/>
+    Tryk R når alt går galt, og brug så igen SKIFT til at sætte gang i løjerne.
+</a><br/>
+
+<div id='tempo'>
+<h1>
+    <input type='number' step='0.1' id='bpm'> JULE-BPM <button onclick='setBPM("")'>☃</button>
+</h1>
+<button onclick='setBPM("half")'>/2</button><button onclick='setBPM("double")'>*2</button>
+</div>
+<a style="font-family: serif">God Jule-fornøjelse</a>
+<br/>
+Dette programmel er i beta-stadiet.
+</body>
+</html>
