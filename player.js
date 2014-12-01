@@ -1,8 +1,9 @@
 
 function playersinit(){
     for(var i = 0; i<MEASURES ; i++){
-    players.push(new MyPlayer());
-    }
+        p = new MyPlayer();
+        players[p.uniqueref] = p;
+        }
     }
 
 function MyPlayer(){
@@ -10,23 +11,41 @@ function MyPlayer(){
     returnvalue = generatePlayerHtml();
     this.html   = returnvalue[0];
     this.uniqueref = returnvalue[1];
+
+    this.player = new Howl();
     }
+
+MyPlayer.prototype.play = undefined;
+MyPlayer.prototype.pause = undefined;
+MyPlayer.prototype.updateVol = undefined;
+MyPlayer.prototype.selectSound = undefined;
 
 
 function generatePlayerHtml(){
 
     uniqueref = makeid();
     html      =
-        "<div>\n" +
-            "<select>\n" +
+        "<div class='miniplayer'>\n" +
+            "<select onchange='players[uniqueref].updateSound();'>\n" +
                 generateSoundOptions() +
             "</select>\n" +
-            "<input type='range' name='vol " + uniqueref + "' min='0' max='1' onchange='players[uniqueref].updateSound();'/>\n" +
+            "<input type='range' name='vol " +
+              uniqueref +
+              "' min='0' max='1' value='0.8'" +
+              "onchange='players[uniqueref].updateVol();'/>\n" +
             "<button name'play" + uniqueref + "' onclick='players[uniqueref].play()'>\n" +
             "<button name'pause" + uniqueref + "' onclick='players[uniqueref].pause()'>\n" +
         "</div>"
     return [html, uniqueref];
    }
+
+function generateSoundOptions(){
+    string = "";
+    for path in SOUNDPATHS{
+        string = string + "<option value='" + path + "'>" + path + "</option>\n"
+        }
+    return string;
+    }
 
 function makeid()
 {
@@ -35,70 +54,6 @@ function makeid()
 
     for( var i=0; i < 5; i++ )
         text += possible.charAt(Math.floor(Math.random() * possible.length));
-
     return text;
 }
 
-function input(keynum){
-    switch(keynum) {
-
-      case 32: // space for tap!
-        time = Date.now();
-        TIMEQUEUE.push(time);
-        TIMEQUEUE.shift();
-        calculateBPM();
-        break;
-
-      case 38: // pil op
-        sound.volume(sound.volume() + 0.05);
-        break;
-
-      case 40: // pil ned
-        sound.volume(sound.volume() - 0.05);
-        break;
-      case 16: // BREAK-ned
-        BREAK = true;
-        break;
-      case 82: // BREAK-ned
-        BREAK = true;
-        break;
-      default: {}
-    }
-  }
-
-function calculateBPM(){
-    var deltas = 0;
-    for(var i = 0; i < TIMEQUEUE.length - 1; i++){
-        deltas += TIMEQUEUE[i+1] - TIMEQUEUE[i]
-        }
-    deltas = deltas / 1000;
-    newBPM = (60.0 / deltas) * 7;
-    BPM = newBPM.toFixed(1);
-    DOWNBEAT = (60000 / BPM).toFixed(1);
-    UPBEAT = (60000 / BPM).toFixed(1);
-    $('#bpm').val(BPM.toString());
-    clearTimeout(timeout0);
-    clearTimeout(timeout1);
-    soundloop();
-}
-
-window.onload = init;
-
-function setBPM(string){
-    switch(string) {
-
-    case "double":
-        BPM = (BPM * 2).toFixed(1);
-        break;
-    case "half":
-        BPM = (BPM / 2).toFixed(1);
-        break;
-
-    default:
-        BPM = parseFloat($('#bpm').val()).toFixed(1);
-
-    }
-    DOWNBEAT = (60000 / BPM).toFixed(1);
-    UPBEAT = (60000 / BPM).toFixed(1);
-    $('#bpm').val(BPM.toString());
-    }

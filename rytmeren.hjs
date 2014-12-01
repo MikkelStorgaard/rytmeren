@@ -5,9 +5,9 @@ var BPM, UPBEAT, DOWNBEAT = 80;
 var TIMEQUEUE = [];
 var MEASURES  = 16
 var timeout0, timeout1;
-var players = new Array(MEASURES);
+var players = {};
 var REFCOUNTER = 0;
-
+var SOUNDPATHS = ["sounds/JINGLES.WAV"];
 
 //
 

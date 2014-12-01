@@ -1,15 +1,4 @@
 
-// CONSTANTS AND CONFIGURATIONS
-
-var BREAK;
-var BPM, UPBEAT, DOWNBEAT = 80;
-var TIMEQUEUE = [];
-var MEASURES  = 16
-var timeout0, timeout1;
-
-//
-
-
 function clockinit(){
     for(var i = 0; i<MEASURES ; i++){
         TIMEQUEUE.push(Date.now());
@@ -17,7 +6,9 @@ function clockinit(){
 }
 
 
-function soundloop(){
+function clockloop(number){
+
+
    console.log(UPBEAT);
    console.log(DOWNBEAT);
    if (BREAK == true) {return;}
