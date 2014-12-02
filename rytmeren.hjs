@@ -1,12 +1,15 @@
 // CONSTANTS AND CONFIGURATIONS
 
 var BREAK;
-var BPM, UPBEAT, DOWNBEAT = 80;
+var BPM, DOWNBEAT = 80;
 var TIMEQUEUE = [];
-var MEASURES  = 16
-var timeout0, timeout1;
-var players = {};
+var MEASURES  = 16;
+var ACTIVEMEASURES = 16;
+var clockTimeout;
+var players = new Array();
+var playercontroller;
 var REFCOUNTER = 0;
+var TRACKS = 8;
 var SOUNDPATHS = ["sounds/JINGLES.WAV"];
 
 //

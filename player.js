@@ -1,32 +1,47 @@
-
-function playersinit(){
-    for(var i = 0; i<MEASURES ; i++){
-        p = new MyPlayer();
-        players[p.uniqueref] = p;
-        }
-    }
-
-function MyPlayer(){
-
-    returnvalue = generatePlayerHtml();
+function MyPlayer(measure,track){
+    returnvalue = generatePlayerHtml(i,j);
     this.html   = returnvalue[0];
     this.uniqueref = returnvalue[1];
+    this.player = new Howl({ autoplay: false,
+                             volume  : 0.8 });
+    this.muted  = false;
+}
 
-    this.player = new Howl();
-    }
+function MyPlayerController(){
+    this.playersArray = new Array(MEASURES);
+    for(var measure = 0; measure < MEASURES; measure++){
+        var playerArray = new Array(TRACKS);
+        for(var track = 0; track < TRACKS; track++){
+            p = new MyPlayer(measure, track);
+            playerArray[track] = p;
+            }
+        this.playersArray[measure] = playerArray;
+        }
+}
 
-MyPlayer.prototype.play = undefined;
-MyPlayer.prototype.pause = undefined;
-MyPlayer.prototype.updateVol = undefined;
-MyPlayer.prototype.selectSound = undefined;
+
+MyPlayer.prototype.play = function(){this.player.play()};
+MyPlayer.prototype.mute = function(){if (this.muted == false){
+                                            this.muted = true;
+                                            this.player.mute();
+                                            }
+                                     else{
+                                         this.muted = false;
+                                         this.player.unmute();
+                                     }
+                                    }
+
+MyPlayer.prototype.updateVol = function(a){this.player.volume(a);}
+MyPlayer.prototype.selectSound = function(a){this.player.urls([a]);}
+
+MyPlayerController.prototype = updateSound() = undefined;
 
 
-function generatePlayerHtml(){
 
-    uniqueref = makeid();
+function generatePlayerHtml(measure, track){
     html      =
-        "<div class='miniplayer'>\n" +
-            "<select onchange='players[uniqueref].updateSound();'>\n" +
+        "<div class='miniplayer' id='m" +measure+ "t"+track+">\n" +
+            "<select onchange='playercontroller.updateSound();'>\n" +
                 generateSoundOptions() +
             "</select>\n" +
             "<input type='range' name='vol " +
@@ -34,7 +49,7 @@ function generatePlayerHtml(){
               "' min='0' max='1' value='0.8'" +
               "onchange='players[uniqueref].updateVol();'/>\n" +
             "<button name'play" + uniqueref + "' onclick='players[uniqueref].play()'>\n" +
-            "<button name'pause" + uniqueref + "' onclick='players[uniqueref].pause()'>\n" +
+            "<button name'mute" + uniqueref + "' onclick='players[uniqueref].mute()'>\n" +
         "</div>"
     return [html, uniqueref];
    }
@@ -46,14 +61,3 @@ function generateSoundOptions(){
         }
     return string;
     }
-
-function makeid()
-{
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-    for( var i=0; i < 5; i++ )
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-    return text;
-}
-
